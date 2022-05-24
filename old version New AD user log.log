@@ -1,0 +1,47 @@
+2022/05/20 11:15:49 
+
+
+
+2022/05/20 11:15:49 The script started by user asadler-adm.
+2022/05/20 11:15:49 New user: Testfirstname Testsurname
+2022/05/20 11:15:49 Displayname: Testsurname, Testfirstname
+2022/05/20 11:15:49 Login name: ttestsurna
+2022/05/20 11:15:49 Email address: testfirstname.testsurname@igdoors.co.uk
+2022/05/20 11:15:49 Start date: 01/07/2022
+2022/05/20 11:15:49 Department: Customer Care Department
+2022/05/20 11:15:49 Active Directory groups: customercare-team
+    newbuild
+2022/05/20 11:15:49 Access group: allowTrustedLocations
+2022/05/20 11:15:50 
+Enable-Remotemailbox -Identity 'ttestsurna' -PrimarySmtpAddress 'testfirstname.testsurname@igdoors.co.uk' -Remoteroutingaddress 'testfirstname.testsurname.igdoors.co.uk@hgrouponline.mail.onmicrosoft.com'
+Enable-RemoteMailbox testfirstname.testsurname@igdoors.co.uk -Archive
+Connect-ExchangeOnline -UserPrincipalName 'asadler-adm@igdoors.co.uk'
+Set-Mailbox -Identity testfirstname.testsurname@igdoors.co.uk -RetentionPolicy 'HGROUP Default RetentionPolicy'
+2022/05/20 11:15:50 The task has run successfully.
+
+
+
+2022/05/20 11:56:46 
+
+
+
+2022/05/20 11:56:46 The script started by user asadler-adm.
+2022/05/20 11:56:46 New user: Testfirstname Testsurname
+2022/05/20 11:56:46 Displayname: Testsurname, Testfirstname2
+2022/05/20 11:56:46 Login name: ttestsurn2
+2022/05/20 11:56:46 Email address: testfirstname.testsurname2@igdoors.co.uk
+2022/05/20 11:56:46 Start date: 20/05/2022
+2022/05/20 11:56:46 Department: Customer Care Department
+2022/05/20 11:56:46 Active Directory groups: customercare-team
+    Logistics
+    randd-team
+2022/05/20 11:56:46 Access group: allowTrustedLocations
+2022/05/20 11:56:47 
+Enable-Remotemailbox -Identity 'ttestsurn2' -PrimarySmtpAddress 'testfirstname.testsurname2@igdoors.co.uk' -Remoteroutingaddress 'testfirstname.testsurname.igdoors.co.uk@hgrouponline.mail.onmicrosoft.com'
+Enable-RemoteMailbox testfirstname.testsurname2@igdoors.co.uk -Archive
+Connect-ExchangeOnline -UserPrincipalName 'asadler-adm@igdoors.co.uk'
+Set-Mailbox -Identity testfirstname.testsurname2@igdoors.co.uk -RetentionPolicy 'HGROUP Default RetentionPolicy'
+2022/05/20 11:56:47 The task has run successfully.
+
+
+

@@ -1,0 +1,1 @@
+ps2exe "\\hgroup\data\GB-IGDoors\IT-Team\repos\Add or edit AD user\ADD or edit AD user.ps1" "\\hgroup\data\GB-IGDoors\IT-Team\repos\Add or edit AD user\Add or edit AD user.exe"

@@ -1,0 +1,131 @@
+2022/05/23 16:09:57 
+
+
+EDIT USER
+
+2022/05/23 16:09:57 The script started by user asadler.
+2022/05/23 16:09:57 Edit user: Aj Sadler
+2022/05/23 16:09:57 Displayname: Sadler, Aj
+2022/05/23 16:09:57 Login name: asadler
+2022/05/23 16:09:57 Email address: aj.sadler@igdoors.co.uk
+2022/05/23 16:09:57 Job Title: 
+2022/05/23 16:09:57 Department: After Sales Department
+2022/05/23 16:09:57 Active Directory groups: aftersales-team
+2022/05/23 16:09:57 Remove from AD groups: it-team
+2022/05/23 16:09:57 Access group: requireUserMFA
+2022/05/23 16:10:08 The task has run successfully.
+
+
+
+2022/05/23 16:17:31 
+
+
+EDIT USER
+
+2022/05/23 16:17:31 The script started by user asadler.
+2022/05/23 16:17:31 Edit user: Aj Sadler
+2022/05/23 16:17:31 Displayname: Sadler, Aj
+2022/05/23 16:17:31 Login name: asadler
+2022/05/23 16:17:31 Email address: aj.sadler@igdoors.co.uk
+2022/05/23 16:17:31 Job Title: 
+2022/05/23 16:17:31 Department: Technical Department
+2022/05/23 16:17:31 Active Directory groups: technical-team
+2022/05/23 16:17:31 Remove from AD groups: it-team
+2022/05/23 16:17:31 Access group: allowTrustedLocations
+2022/05/23 16:17:43 The task has run successfully.
+
+
+
+2022/05/23 16:18:53 
+
+
+EDIT USER
+
+2022/05/23 16:18:53 The script started by user asadler.
+2022/05/23 16:18:53 Edit user: Aj Sadler
+2022/05/23 16:18:53 Displayname: Sadler, Aj
+2022/05/23 16:18:53 Login name: asadler
+2022/05/23 16:18:53 Email address: aj.sadler@igdoors.co.uk
+2022/05/23 16:18:53 Job Title: 
+2022/05/23 16:18:54 Department: I.T. Systems
+2022/05/23 16:18:54 Active Directory groups: it-team
+2022/05/23 16:18:54 Remove from AD groups: 
+2022/05/23 16:18:54 Access group: allowTrustedLocations(unchanged)
+2022/05/23 16:19:05 The task has run successfully.
+
+
+
+2022/05/23 16:21:27 
+
+
+EDIT USER
+
+2022/05/23 16:21:27 The script started by user asadler.
+2022/05/23 16:21:27 Edit user: Aj Sadler
+2022/05/23 16:21:27 Displayname: Sadler, Aj
+2022/05/23 16:21:27 Login name: asadler
+2022/05/23 16:21:27 Email address: aj.sadler@igdoors.co.uk
+2022/05/23 16:21:27 Job Title: 
+2022/05/23 16:21:27 Department: I.T. Systems
+2022/05/23 16:21:27 Active Directory groups: it-team
+2022/05/23 16:21:27 Remove from AD groups: 
+2022/05/23 16:21:27 Access group: allowTrustedLocations (changed from requireUserMFA)
+2022/05/23 16:21:38 The task has run successfully.
+
+
+
+2022/05/23 16:21:58 
+
+
+EDIT USER
+
+2022/05/23 16:21:58 The script started by user asadler.
+2022/05/23 16:21:58 Edit user: Aj Sadler
+2022/05/23 16:21:58 Displayname: Sadler, Aj
+2022/05/23 16:21:58 Login name: asadler
+2022/05/23 16:21:58 Email address: aj.sadler@igdoors.co.uk
+2022/05/23 16:21:58 Job Title: 
+2022/05/23 16:21:58 Department: I.T. Systems
+2022/05/23 16:21:58 Active Directory groups: it-team
+2022/05/23 16:21:58 Remove from AD groups: 
+2022/05/23 16:21:58 Access group: requireUserMFA (unchanged)
+2022/05/23 16:22:10 The task has run successfully.
+
+
+
+2022/05/23 16:46:38 
+
+EDIT USER
+
+2022/05/23 16:46:38 The script started by user asadler.
+2022/05/23 16:46:38 Edit user: Aj Sadler
+2022/05/23 16:46:38 Displayname: Sadler, Aj
+2022/05/23 16:46:38 Login name: asadler
+2022/05/23 16:46:38 Email address: aj.sadler@igdoors.co.uk
+2022/05/23 16:46:38 Job Title: 
+2022/05/23 16:46:38 Department: After Sales Department
+2022/05/23 16:46:38 Active Directory groups: sage-payroll, aftersales-team
+2022/05/23 16:46:38 Removed from AD groups: it-team
+2022/05/23 16:46:38 Access group: allowTrustedLocations (changed from requireUserMFA)
+2022/05/23 16:47:46 The task has run successfully.
+
+
+
+2022/05/23 16:50:47 
+
+EDIT USER
+
+2022/05/23 16:50:47 The script started by user asadler.
+2022/05/23 16:50:47 Edit user: Aj Sadler
+2022/05/23 16:50:47 Displayname: Sadler, Aj
+2022/05/23 16:50:47 Login name: asadler
+2022/05/23 16:50:47 Email address: aj.sadler@igdoors.co.uk
+2022/05/23 16:50:47 Job Title: Test Job Title
+2022/05/23 16:50:47 Department: After Sales Department
+2022/05/23 16:50:47 Active Directory groups: aftersales-team
+2022/05/23 16:50:47 Removed from AD groups: it-team
+2022/05/23 16:50:47 Access group: allowTrustedLocations (changed from requireUserMFA)
+2022/05/23 16:50:58 The task has run successfully.
+
+
+
