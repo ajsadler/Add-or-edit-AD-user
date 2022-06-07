@@ -681,3 +681,42 @@ Set-Mailbox -Identity test.mctest@igdoors.co.uk -RetentionPolicy 'HGROUP Default
 
 
     
+2022/05/31 09:59:31 
+
+
+    NEW USER
+    
+2022/05/31 09:59:31 The script started by user asadler.
+2022/05/31 09:59:31 New user: Test Mctest
+2022/05/31 09:59:31 Displayname: Mctest, Test
+2022/05/31 09:59:31 Login name: tmctest
+2022/05/31 09:59:31 Email address: test.mctest@igdoors.co.uk
+2022/05/31 09:59:31 Start date: 01/06/2022
+2022/05/31 09:59:31 Job Title: 
+2022/05/31 09:59:31 Department: Trade Division
+2022/05/31 09:59:31 Active Directory groups: Logistics, trade-team
+2022/05/31 09:59:31 Access group: allowTrustedLocations
+2022/05/31 09:59:32 
+Enable-Remotemailbox -Identity 'tmctest' -PrimarySmtpAddress 'test.mctest@igdoors.co.uk' -Remoteroutingaddress 'test.mctest.igdoors.co.uk@hgrouponline.mail.onmicrosoft.com'
+Enable-RemoteMailbox test.mctest@igdoors.co.uk -Archive
+Connect-ExchangeOnline -UserPrincipalName 'asadler@igdoors.co.uk'
+Set-Mailbox -Identity test.mctest@igdoors.co.uk -RetentionPolicy 'HGROUP Default RetentionPolicy'
+2022/05/31 09:59:32 The task has run successfully.
+
+
+    
+2022/06/01 12:08:57 
+
+
+    NEW USER
+    
+2022/06/01 12:08:57 The script started by user asadler.
+2022/06/01 12:08:57 New user: Test Mctest
+2022/06/01 12:08:57 Displayname: Mctest, Test
+2022/06/01 12:08:57 Login name: tmctest
+2022/06/01 12:08:57 Email address: test.mctest@igdoors.co.uk
+2022/06/01 12:08:57 Start date: 01/06/2022
+2022/06/01 12:08:57 Job Title: 
+2022/06/01 12:08:57 Department: Customer Care Department
+2022/06/01 12:08:57 Active Directory groups: customercare-team
+2022/06/01 12:08:57 Access group: allowTrustedLocations

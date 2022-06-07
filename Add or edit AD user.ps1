@@ -457,8 +457,8 @@ function EachDeptInNew # For each dept in the 'new' array, transform it to the A
             'log*'          {$script:newDepartmentFull += "Logistics";                             $script:newDepartmentAD += "Logistics"}
             '*brid*'        {$script:newDepartmentFull += "Logistics (Bridgetime)";                $script:newDepartmentAD += "bridgetime"}
             'mat*'          {$script:newDepartmentFull += "Materials && Warehouse Management";     $script:newDepartmentAD += "MaterialsandWarehouse-Management"}
-            'new build d*'  {$script:newDepartmentFull += "New Build Division";                  $script:newDepartmentAD += "newbuild"}
-            'new build m*'  {                                                                    $script:newDepartmentAD += "newbuild-management"}
+            'new build d*'  {$script:newDepartmentFull += "New Build Division";                    $script:newDepartmentAD += "newbuild"}
+            'new build m*'  {                                                                      $script:newDepartmentAD += "newbuild-management"}
             'npd*'          {                                                                      $script:newDepartmentAD += "NPD-Project-Planning"}
             'ope*'          {$script:newDepartmentFull += "Operations Department";                 } # $script:newDepartmentAD += ""}
             'ord*'          {$script:newDepartmentFull += "Order Processing Department";           $script:newDepartmentAD += "orderprocessing-team"}
@@ -792,65 +792,87 @@ function GoButtonNew # Write to the log ; create new user ; set the user attribu
     WriteLog "Access group: $script:accessGroup"
     
     $i=0
-    do {$i++; $progressbar.Value = $i} while ($i -lt 10)
+    do {$i++; $progressbar.Value = $i; Start-Sleep -Seconds 0.5} while ($i -lt 10)
 
     New-ADUser -Name "$script:newUsername" -path "OU=internal Users,OU=user,OU=blw,OU=gb,OU=hgroup-production,DC=hgroup,DC=intra" -AccountPassword $(ConvertTo-SecureString -AsPlainText $script:newPassword -Force) -Enabled $true
 
-    do {$i++; $progressbar.Value = $i} while ($i -lt 30)
+    do {$i++; $progressbar.Value = $i; Start-Sleep -Seconds 1.0} while ($i -lt 30) # Longer delay to ensure user is created before setting attributes and groups
 
     Set-ADUser -Identity "$script:newUsername" -Replace @{
-    'Company' = "IG Doors Ltd.";
-    'StreetAddress' = "Lon Gellideg, Oakdale Business Park";
-    'l' = "Blackwood";
-    'st' = "South Wales";
-    'PostalCode' = "NP12 4AE";
-    'c' = "GB";
-    'co' = "United Kingdom";
-    'countryCode' = "826";
-    'GivenName' = "$script:newFirstName";
-    'sn' = "$script:newSurname";
-    'DisplayName' = "$script:newDisplayName";
-    'mailNickname' = "$script:newUsername";
-    'mail' = "$script:newEmail";
-    'UserPrincipalName' = "$script:newEmail";
-    'targetAddress' = "SMTP:$script:newEmailLong";
-    'Department' = "$script:newDepartmentPrimary";
-    'Title' = "$script:newJobTitle";
-    'extensionAttribute1' = "Included";
-    'extensionAttribute15' = "AADSync";
+        'Company' = "IG Doors Ltd.";
+        'StreetAddress' = "Lon Gellideg, Oakdale Business Park";
+        'l' = "Blackwood";
+        'st' = "South Wales";
+        'PostalCode' = "NP12 4AE";
+        'c' = "GB";
+        'co' = "United Kingdom";
+        'countryCode' = "826";
+        'GivenName' = "$script:newFirstName";
+        'sn' = "$script:newSurname";
+        'DisplayName' = "$script:newDisplayName";
+        'mailNickname' = "$script:newUsername";
+        'mail' = "$script:newEmail";
+        'UserPrincipalName' = "$script:newEmail";
+        'targetAddress' = "SMTP:$script:newEmailLong";
+        'Department' = "$script:newDepartmentPrimary";
+        'Title' = "$script:newJobTitle";
+        'extensionAttribute1' = "Included";
+        'extensionAttribute15' = "AADSync";
     }
     
-    do {$i++; $progressbar.Value = $i} while ($i -lt 50)
+    do {$i++; $progressbar.Value = $i; Start-Sleep -Seconds 0.5} while ($i -lt 40)
 
     Get-ADUser "$script:newUsername" | Rename-ADObject -NewName "$script:newDisplayName"
     
-    do {$i++; $progressbar.Value = $i} while ($i -lt 60)
+    do {$i++; $progressbar.Value = $i; Start-Sleep -Seconds 0.5} while ($i -lt 50)
 
     $User = Get-ADUser $script:newUsername -Properties proxyAddresses
     $User.proxyAddresses.Add("SMTP:$script:newEmail")
     $User.proxyAddresses.Add("smtp:$script:newEmailLong")
     Set-ADUser -instance $User
 
-    do {$i++; $progressbar.Value = $i} while ($i -lt 70)
+    do {$i++; $progressbar.Value = $i; Start-Sleep -Seconds 0.5} while ($i -lt 60)
 
-    Add-ADGroupMember -Identity zzx-gbblw-m365-ConditionalAccess-$script:accessGroup -Members $script:newUsername
+    Add-ADGroupMember -Identity zzx-gbblw-m365-ConditionalAccess-$script:accessGroup -Members $script:newUsername # Access group - office only or remote enabled
+    Add-ADGroupMember -Identity zzo-gbblw-user-all -Members $script:newUsername # User group - grants default zpermissions file access
+    Add-ADGroupMember -Identity zzl-gbblw-M365E3-default -Members $script:newUsername # License group - default license for Microsoft365
+    Add-ADGroupMember -Identity zzl-gbblw-M365E3-ExchangeOnlinePlan2 -Members $script:newUsername # License group - Exchange Online for Microsoft365
     
-    do {$i++; $progressbar.Value = $i} while ($i -lt 80)
-
+    do {$i++; $progressbar.Value = $i; Start-Sleep -Seconds 0.5} while ($i -lt 75)
+    
     foreach ($department in $script:newDepartmentAD)
-    {Add-ADGroupMember -Identity zzd-gbblw-igdoors-$department-rw -Members $script:newUsername}
+    {
+    Add-ADGroupMember -Identity zzd-gbblw-igdoors-$department-rw -Members $script:newUsername # Access group - grants zpermissions file access based on their departments
+        switch ($department) # Mail group - any relevant mail groups based on their departments
+        {
+            "finance-team"                      {Add-ADGroupMember -Identity DL-H-IGDoors-Accounts_Department -Members $script:newUsername}
+            "customercare-team"                 {Add-ADGroupMember -Identity DL-H-IGDoors-Customer_Care -Members $script:newUsername}
+            "newbuild"                          {Add-ADGroupMember -Identity DL-H-IGDoors-New_Build_Division -Members $script:newUsername}
+            "socialhousing-team"                {Add-ADGroupMember -Identity DL-H-IGDoors-Social -Members $script:newUsername}
+            "technical-team"                    {Add-ADGroupMember -Identity DL-H-IGDoors-Estimating -Members $script:newUsername}
+            "quality-team"                      {Add-ADGroupMember -Identity DL-H-IGDoors-HSQE -Members $script:newUsername;
+                                                 Add-ADGroupMember -Identity DL-H-IGDoors-Non-Conform -Members $script:newUsername}
+            "MaterialsandWarehouse-Management"  {Add-ADGroupMember -Identity DL-H-IGDoors-Non-Conform -Members $script:newUsername}
+            "Logistics"                         {Add-ADGroupMember -Identity DL-H-IGDoors-Operations_Department -Members $script:newUsername}
+            "production"                        {Add-ADGroupMember -Identity DL-H-IGDoors-Operations_Department -Members $script:newUsername}
+            Default                             {""}
+        }
+    }
     
-    do {$i++; $progressbar.Value = $i} while ($i -lt 90)
+    do {$i++; $progressbar.Value = $i; Start-Sleep -Seconds 0.5} while ($i -lt 90)
 
 WriteLog "
 Enable-Remotemailbox -Identity '$script:newUsername' -PrimarySmtpAddress '$script:newEmail' -Remoteroutingaddress '$script:newEmailLong'
+
 Enable-RemoteMailbox $script:newEmail -Archive
+
 Connect-ExchangeOnline -UserPrincipalName '$admUsername@igdoors.co.uk'
+
 Set-Mailbox -Identity $script:newEmail -RetentionPolicy 'HGROUP Default RetentionPolicy'"
 
     AddToExcel
 
-    do {$i++; $progressbar.Value = $i} while ($i -lt 100)
+    do {$i++; $progressbar.Value = $i; Start-Sleep -Seconds 0.1} while ($i -lt 100)
 
     WriteLog "The task has run successfully.`n
 
@@ -887,7 +909,7 @@ function EditUser # Edit an existing user ; validate the username ; display the 
     try {$script:newDepartmentPrimary = $script:newDepartmentPrimary.Replace("&", "&&")} catch {}
     $script:newDepartmentFull += $deptentry.Text
 
-    $script:newMemberOf = $script:newMemberOf.split("CN=")
+    $script:newMemberOf = $script:newMemberOf -split "CN="
     foreach ($department in $script:newMemberOf)
     {
         switch -wildcard ($department)
@@ -895,29 +917,38 @@ function EditUser # Edit an existing user ; validate the username ; display the 
             '*3tec*'                    {$script:newDepartment += "3Tec";                               $script:newDepartmentAD += "3tec"}
             '*accounts*'                {$script:newDepartment += "Accounts Department";                } # $script:newDepartmentAD += ""
             '*aftersales-team*'         {$script:newDepartment += "After Sales Department";             $script:newDepartmentAD += "aftersales-team"}
+            '*bridgetime-scans*'        {$script:newDepartment += "Bridgetime Scans";                   $script:newDepartmentAD += "Bridgetime-Scans"}
             '*CNC-team*'                {$script:newDepartment += "CNC Team";                           $script:newDepartmentAD += "CNC-Team"}
             '*customercare-team*'       {$script:newDepartment += "Customer Care Department";           $script:newDepartmentAD += "customercare-team"}
+            '*data-exchange*'           {$script:newDepartment += "Data Exchange";                      $script:newDepartmentAD += "data-exchange"}
+            '*despatch-images*'         {$script:newDepartment += "Despatch Images";                    $script:newDepartmentAD += "Despatch-Images"}
             '*engineering-team*'        {$script:newDepartment += "Engineering Department";             $script:newDepartmentAD += "engineering-team"}
             '*finance-team*'            {$script:newDepartment += "Finance Department";                 $script:newDepartmentAD += "finance-team"}
             '*HealthandSafety*'         {$script:newDepartment += "Health & Safety Department";         $script:newDepartmentAD += "HealthandSafety"}
             '*human-resources*'         {$script:newDepartment += "Human Resources Department";         $script:newDepartmentAD += "human-resources"}
+            '*information-centre*'      {$script:newDepartment += "Information Centre";                 $script:newDepartmentAD += "Information-Centre"}
             '*it-team*'                 {$script:newDepartment += "I.T. Systems";                       $script:newDepartmentAD += "it-team"}
             '*Logistics*'               {$script:newDepartment += "Logistics";                          $script:newDepartmentAD += "Logistics"}
-            '*bridgetime*'              {$script:newDepartment += "Logistics (Bridgetime)";             $script:newDepartmentAD += "bridgetime"}
+            '*bridgetime-rw*'           {$script:newDepartment += "Logistics (Bridgetime)";             $script:newDepartmentAD += "bridgetime"}
             '*MaterialsandWarehouse*'   {$script:newDepartment += "Materials & Warehouse Management";   $script:newDepartmentAD += "MaterialsandWarehouse-Management"}
-            '*newbuild*'                {$script:newDepartment += "New Build Division";                 $script:newDepartmentAD += "newbuild"}
+            '*newbuild-rw*'             {$script:newDepartment += "New Build Division";                 $script:newDepartmentAD += "newbuild"}
+            '*newbuild-management*'     {$script:newDepartment += "New Build Management";               $script:newDepartmentAD += "newbuild-management"}
             '*operations*'              {$script:newDepartment += "Operations Department";              } # $script:newDepartmentAD += ""
             '*orderprocessing-team*'    {$script:newDepartment += "Order Processing Department";        $script:newDepartmentAD += "orderprocessing-team"}
-            '*planning*'                {$script:newDepartment += "Planning Department";                $script:newDepartmentAD += "planning"}
+            '*doors-planning*'          {$script:newDepartment += "Planning Department";                $script:newDepartmentAD += "planning"}
             '*production-rw*'           {$script:newDepartment += "Production Department";              $script:newDepartmentAD += "production"}
             '*project-engineering*'     {$script:newDepartment += "Project Engineering Department";     $script:newDepartmentAD += "project-engineering"}
             '*purchasing*'              {$script:newDepartment += "Purchasing Department";              } # $script:newDepartmentAD += ""
             '*quality-team*'            {$script:newDepartment += "Quality & HSE Department";           $script:newDepartmentAD += "quality-team"}
+            '*quality-images*'          {$script:newDepartment += "Quality Images";                     $script:newDepartmentAD += "quality-images"}
             '*randd-team*'              {$script:newDepartment += "Research & Development";             $script:newDepartmentAD += "randd-team"}
-            '*RMA*'                     {$script:newDepartment += "RMA";                                $script:newDepartmentAD += "RMA"}
+            '*doors-RMA*'               {$script:newDepartment += "RMA";                                $script:newDepartmentAD += "RMA"}
             '*sage-payroll*'            {$script:newDepartment += "Payroll Department";                 $script:newDepartmentAD += "sage-payroll"}
-            '*-sales-team*'             {$script:newDepartment += "Sales Department";                   $script:newDepartmentAD += "sales-team"}
+            '*doors-sales-team*'        {$script:newDepartment += "Sales Department";                   $script:newDepartmentAD += "sales-team"}
+            '*senior-managers*'         {$script:newDepartment += "Senior Managers";                    $script:newDepartmentAD += "Senior-Managers"}
+            '*seniorfinance-team*'      {$script:newDepartment += "Senior Finance Team";                $script:newDepartmentAD += "SeniorFinance-Team"}
             '*socialhousing-team*'      {$script:newDepartment += "Social Housing Department";          $script:newDepartmentAD += "socialhousing-team"}
+            '*team-leaders*'            {$script:newDepartment += "Team Leaders";                       $script:newDepartmentAD += "team-leaders"}
             '*technical-team*'          {$script:newDepartment += "Technical Department";               $script:newDepartmentAD += "technical-team"}
             '*trade-team*'              {$script:newDepartment += "Trade Division";                     $script:newDepartmentAD += "trade-team"}
             '*allowTrustedLocations*'   {$trustedlocation.Checked = $true; $requireusermfa.Checked = $false; $script:accessGroupOriginal = "allowTrustedLocations"}
@@ -970,12 +1001,12 @@ function GoButtonEdit # Write to the log ; set the new job title and department 
     WriteLog "Access group: $script:accessGroupLog"
 
     $i=0
-    do {$i++; $progressbar.Value = $i} while ($i -lt 20)
+    do {$i++; $progressbar.Value = $i; Start-Sleep -Seconds 0.5} while ($i -lt 20)
 
     Set-ADUser $newUsername -Title "$newJobTitle"
     Set-ADUser $newUsername -Department "$newDepartmentPrimary"
     
-    do {$i++; $progressbar.Value = $i} while ($i -lt 40)
+    do {$i++; $progressbar.Value = $i; Start-Sleep -Seconds 0.5} while ($i -lt 40)
 
     foreach ($department in $script:newDepartmentAD)
         {Add-ADGroupMember -Identity zzd-gbblw-igdoors-$department-rw -Members $script:newUsername}
@@ -983,7 +1014,7 @@ function GoButtonEdit # Write to the log ; set the new job title and department 
     foreach ($department in $script:delDepartmentAD)
         {Remove-ADGroupMember -Identity zzd-gbblw-igdoors-$department-rw -Members $script:newUsername -Confirm:$false}
 
-    do {$i++; $progressbar.Value = $i} while ($i -lt 60)
+    do {$i++; $progressbar.Value = $i; Start-Sleep -Seconds 0.5} while ($i -lt 60)
 
     if ($script:accessGroup -notmatch $script:accessGroupOriginal)
     {
@@ -991,11 +1022,11 @@ function GoButtonEdit # Write to the log ; set the new job title and department 
         Add-ADGroupMember -Identity zzx-gbblw-m365-ConditionalAccess-$script:accessGroup -Members $script:newUsername
     }
 
-    do {$i++; $progressbar.Value = $i} while ($i -lt 80)
+    do {$i++; $progressbar.Value = $i; Start-Sleep -Seconds 0.5} while ($i -lt 80)
 
     AddToExcel
 
-    do {$i++; $progressbar.Value = $i} while ($i -lt 100)
+    do {$i++; $progressbar.Value = $i; Start-Sleep -Seconds 0.1} while ($i -lt 100)
         
     WriteLog "The task has run successfully.`n
 
@@ -1008,7 +1039,6 @@ function GoButtonEdit # Write to the log ; set the new job title and department 
 
 function AddToExcel # Creates csv to run the update zPermissions excel script
 {
-
     $csvOutput = foreach ($dept in $script:newDepartmentAD)
         {
             New-Object -TypeName PSCustomObject -Property @{

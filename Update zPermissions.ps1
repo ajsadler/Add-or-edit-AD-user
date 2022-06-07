@@ -8,7 +8,7 @@ $xlsheet = $xlbook.Sheets.Item("Permissions")
 $xlsheet.Activate()
 
 $csv = Import-Csv -Path "\\hgroup\data\GB-IGDoors\zPermissions\zPermissions to update.csv"
-$csvRowAmount = ($csv | Measure-Object).Count
+$csvRowAmount = ($csv | Measure-Object).Count # How many new rows are in the csv / used for stating how many times to run through the 'for' function
 
 
     function EachDeptRow # On what row is the header for each department
@@ -61,58 +61,58 @@ $csvRowAmount = ($csv | Measure-Object).Count
 
     function EachDeptRange # What is the range for each department (between its row, and the next department's row)
     {
-    $script:rangeFor3tec =            "C" + $script:rowFor3tec              + ":C" + $script:rowForDataExchange
-    $script:rangeForDataExchange =    "C" + $script:rowForDataExchange      + ":C" + $script:rowForProjects
-    $script:rangeForProjects =        "C" + $script:rowForProjects          + ":C" + $script:rowForSagePayroll
-    $script:rangeForSagePayroll =     "C" + $script:rowForSagePayroll       + ":C" + $script:rowForAfterSales
-    $script:rangeForAfterSales =      "C" + $script:rowForAfterSales        + ":C" + $script:rowForCustomerCare
-    $script:rangeForCustomerCare =    "C" + $script:rowForCustomerCare      + ":C" + $script:rowForSeniorManagers
-    $script:rangeForSeniorManagers =  "C" + $script:rowForSeniorManagers    + ":C" + $script:rowForTeamLeaders
-    $script:rangeForTeamLeaders =     "C" + $script:rowForTeamLeaders       + ":C" + $script:rowForFinance
-    $script:rangeForFinance =         "C" + $script:rowForFinance           + ":C" + $script:rowForSeniorFinance
-    $script:rangeForSeniorFinance =   "C" + $script:rowForSeniorFinance     + ":C" + $script:rowForItTeam
-    $script:rangeForItTeam =          "C" + $script:rowForItTeam            + ":C" + $script:rowForOrderProc
-    $script:rangeForOrderProc =       "C" + $script:rowForOrderProc         + ":C" + $script:rowForRandDteam
-    $script:rangeForRandDteam =       "C" + $script:rowForRandDteam         + ":C" + $script:rowForEngineering
-    $script:rangeForEngineering =     "C" + $script:rowForEngineering       + ":C" + $script:rowForSales
-    $script:rangeForSales =           "C" + $script:rowForSales             + ":C" + $script:rowForSocialHousing
-    $script:rangeForSocialHousing =   "C" + $script:rowForSocialHousing     + ":C" + $script:rowForTechnical
-    $script:rangeForTechnical =       "C" + $script:rowForTechnical         + ":C" + $script:rowForQuality
-    $script:rangeForQuality =         "C" + $script:rowForQuality           + ":C" + $script:rowForPublic
-    $script:rangeForPublic =          "C" + $script:rowForPublic            + ":C" + $script:rowForMaterials
-    $script:rangeForMaterials =       "C" + $script:rowForMaterials         + ":C" + $script:rowForTrade
-    $script:rangeForTrade =           "C" + $script:rowForTrade             + ":C" + $script:rowForLogon
-    $script:rangeForLogon =           "C" + $script:rowForLogon             + ":C" + $script:rowForInformation
-    $script:rangeForInformation =     "C" + $script:rowForInformation       + ":C" + $script:rowForProduction
-    $script:rangeForProduction =      "C" + $script:rowForProduction        + ":C" + $script:rowForPlanning
-    $script:rangeForPlanning =        "C" + $script:rowForPlanning          + ":C" + $script:rowForDatabase
-    $script:rangeForDatabase =        "C" + $script:rowForDatabase          + ":C" + $script:rowForReception
-    $script:rangeForReception =       "C" + $script:rowForReception         + ":C" + $script:rowForNewFactory
-    $script:rangeForNewFactory =      "C" + $script:rowForNewFactory        + ":C" + $script:rowForNewBuild
-    $script:rangeForNewBuild =        "C" + $script:rowForNewBuild          + ":C" + $script:rowForNewBuildMan
-    $script:rangeForNewBuildMan =     "C" + $script:rowForNewBuildMan       + ":C" + $script:rowForHumanResSenior
-    $script:rangeForHumanResSenior =  "C" + $script:rowForHumanResSenior    + ":C" + $script:rowForHumanResources
-    $script:rangeForHumanResources =  "C" + $script:rowForHumanResources    + ":C" + $script:rowForQualityImages
-    $script:rangeForQualityImages =   "C" + $script:rowForQualityImages     + ":C" + $script:rowForDespatchImages
-    $script:rangeForDespatchImages =  "C" + $script:rowForDespatchImages    + ":C" + $script:rowForCNCTeam
-    $script:rangeForCNCteam =         "C" + $script:rowForCNCTeam           + ":C" + $script:rowForBridgetime
-    $script:rangeForBridgetime =      "C" + $script:rowForBridgetime        + ":C" + $script:rowForBridgetimeScans
-    $script:rangeForBridgetimeScans = "C" + $script:rowForBridgetimeScans   + ":C" + $script:rowForNPDproject
-    $script:rangeForNPDproject =      "C" + $script:rowForNPDproject        + ":C" + $script:rowForHealth
-    $script:rangeForHealth =          "C" + $script:rowForHealth            + ":C" + $script:rowForRMA
-    $script:rangeForRMA =             "C" + $script:rowForRMA               + ":C" + $script:rowForLogistics
-    $script:rangeForLogistics =       "C" + $script:rowForLogistics         + ":C" + $script:rowForProjectEngi
-    $script:rangeForProjectEngi =     "C" + $script:rowForProjectEngi       + ":C" + $script:rowForZpermissions
-    $script:rangeForZpermissions =    "C" + $script:rowForZpermissions      + ":C" + $script:rowForEnd
+        $script:rangeFor3tec =            "C" + $script:rowFor3tec              + ":C" + $script:rowForDataExchange
+        $script:rangeForDataExchange =    "C" + $script:rowForDataExchange      + ":C" + $script:rowForProjects
+        $script:rangeForProjects =        "C" + $script:rowForProjects          + ":C" + $script:rowForSagePayroll
+        $script:rangeForSagePayroll =     "C" + $script:rowForSagePayroll       + ":C" + $script:rowForAfterSales
+        $script:rangeForAfterSales =      "C" + $script:rowForAfterSales        + ":C" + $script:rowForCustomerCare
+        $script:rangeForCustomerCare =    "C" + $script:rowForCustomerCare      + ":C" + $script:rowForSeniorManagers
+        $script:rangeForSeniorManagers =  "C" + $script:rowForSeniorManagers    + ":C" + $script:rowForTeamLeaders
+        $script:rangeForTeamLeaders =     "C" + $script:rowForTeamLeaders       + ":C" + $script:rowForFinance
+        $script:rangeForFinance =         "C" + $script:rowForFinance           + ":C" + $script:rowForSeniorFinance
+        $script:rangeForSeniorFinance =   "C" + $script:rowForSeniorFinance     + ":C" + $script:rowForItTeam
+        $script:rangeForItTeam =          "C" + $script:rowForItTeam            + ":C" + $script:rowForOrderProc
+        $script:rangeForOrderProc =       "C" + $script:rowForOrderProc         + ":C" + $script:rowForRandDteam
+        $script:rangeForRandDteam =       "C" + $script:rowForRandDteam         + ":C" + $script:rowForEngineering
+        $script:rangeForEngineering =     "C" + $script:rowForEngineering       + ":C" + $script:rowForSales
+        $script:rangeForSales =           "C" + $script:rowForSales             + ":C" + $script:rowForSocialHousing
+        $script:rangeForSocialHousing =   "C" + $script:rowForSocialHousing     + ":C" + $script:rowForTechnical
+        $script:rangeForTechnical =       "C" + $script:rowForTechnical         + ":C" + $script:rowForQuality
+        $script:rangeForQuality =         "C" + $script:rowForQuality           + ":C" + $script:rowForPublic
+        $script:rangeForPublic =          "C" + $script:rowForPublic            + ":C" + $script:rowForMaterials
+        $script:rangeForMaterials =       "C" + $script:rowForMaterials         + ":C" + $script:rowForTrade
+        $script:rangeForTrade =           "C" + $script:rowForTrade             + ":C" + $script:rowForLogon
+        $script:rangeForLogon =           "C" + $script:rowForLogon             + ":C" + $script:rowForInformation
+        $script:rangeForInformation =     "C" + $script:rowForInformation       + ":C" + $script:rowForProduction
+        $script:rangeForProduction =      "C" + $script:rowForProduction        + ":C" + $script:rowForPlanning
+        $script:rangeForPlanning =        "C" + $script:rowForPlanning          + ":C" + $script:rowForDatabase
+        $script:rangeForDatabase =        "C" + $script:rowForDatabase          + ":C" + $script:rowForReception
+        $script:rangeForReception =       "C" + $script:rowForReception         + ":C" + $script:rowForNewFactory
+        $script:rangeForNewFactory =      "C" + $script:rowForNewFactory        + ":C" + $script:rowForNewBuild
+        $script:rangeForNewBuild =        "C" + $script:rowForNewBuild          + ":C" + $script:rowForNewBuildMan
+        $script:rangeForNewBuildMan =     "C" + $script:rowForNewBuildMan       + ":C" + $script:rowForHumanResSenior
+        $script:rangeForHumanResSenior =  "C" + $script:rowForHumanResSenior    + ":C" + $script:rowForHumanResources
+        $script:rangeForHumanResources =  "C" + $script:rowForHumanResources    + ":C" + $script:rowForQualityImages
+        $script:rangeForQualityImages =   "C" + $script:rowForQualityImages     + ":C" + $script:rowForDespatchImages
+        $script:rangeForDespatchImages =  "C" + $script:rowForDespatchImages    + ":C" + $script:rowForCNCTeam
+        $script:rangeForCNCteam =         "C" + $script:rowForCNCTeam           + ":C" + $script:rowForBridgetime
+        $script:rangeForBridgetime =      "C" + $script:rowForBridgetime        + ":C" + $script:rowForBridgetimeScans
+        $script:rangeForBridgetimeScans = "C" + $script:rowForBridgetimeScans   + ":C" + $script:rowForNPDproject
+        $script:rangeForNPDproject =      "C" + $script:rowForNPDproject        + ":C" + $script:rowForHealth
+        $script:rangeForHealth =          "C" + $script:rowForHealth            + ":C" + $script:rowForRMA
+        $script:rangeForRMA =             "C" + $script:rowForRMA               + ":C" + $script:rowForLogistics
+        $script:rangeForLogistics =       "C" + $script:rowForLogistics         + ":C" + $script:rowForProjectEngi
+        $script:rangeForProjectEngi =     "C" + $script:rowForProjectEngi       + ":C" + $script:rowForZpermissions
+        $script:rangeForZpermissions =    "C" + $script:rowForZpermissions      + ":C" + $script:rowForEnd
     }
 
    
     for ($i=0; $i -lt ($csvRowAmount-1); $i++) # For each row in the csv...
     {
-        $script:newUsername = $csv."Username"[$i]
-        $script:newFirstName = $csv."First Name"[$i]
-        $script:newSurname = $csv."Surname"[$i]
-        $script:newDepartmentAD = $csv."Department"[$i]
+        $script:newUsername =       $csv."Username"[$i]
+        $script:newFirstName =      $csv."First Name"[$i]
+        $script:newSurname =        $csv."Surname"[$i]
+        $script:newDepartmentAD =   $csv."Department"[$i]
 
         EachDeptRow # Re-load the row and range functions each time
         EachDeptRange # Because if rows are added, then they will have moved
@@ -341,8 +341,7 @@ $csvRowAmount = ($csv | Measure-Object).Count
         if ($userExists -gt 0) {continue} # Check if the user exists already in that range, so duplicates aren't added
 
         $deptInsertPosition = $deptInsertPosition + 1 # To insert the row underneath the department header
-        $thisRowToInsert = "C" + $deptInsertPosition
-        $whereToInsert = $xl.Range($thisRowToInsert).EntireRow # Insert the row
+        $whereToInsert = $xl.Range("C" + $deptInsertPosition).EntireRow # Insert the row
         [void] $whereToInsert.Insert(1)
 
         $xlsheet.Cells.Item($deptInsertPosition,3) = $script:newUsername # Add the names
